@@ -1,47 +1,42 @@
 @import "bootstrap/scss/bootstrap";
 
+.board-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f2f3f7, #dfe3ea);
+}
 
+.board {
+  display: grid;
+  grid-template-columns: repeat(15, 40px);
+  grid-template-rows: repeat(15, 40px);
+  gap: 4px;
+  background: #222;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
-  .board {
-    width: 100%;                 
-    max-width: 750px;          
-    margin: 20px auto;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr); 
-    gap: 2px;        
-    background: black;        
+.cell {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  transition: transform 0.15s ease, background-color 0.25s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d0e0ff;
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   }
+}
 
-  .cell {
-    border: 1px solid white;
-    position: relative;
-    aspect-ratio: 1 / 1;        
-    min-width: 0;             
-    overflow: hidden;          
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    font-size: 12px;
-    color: red;
-    background: linear-gradient(180deg, #f8f8f8, #e9eef8);
-    background: lightblue url('/src/imgs/fruites.png') no-repeat;
-    background-size: 350px;
-    background-position: -90px -20px;
-    /*border: 1px solid rgba(0,0,0,0.06);*/
-    border-radius: 2px;
-  }
-
-  .cell .inner {
-    padding: 6px;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    overflow: auto;     
-  }
-
-  .board-wrapper {
-    padding: 8px;
-    overflow-x: auto; 
-  }
+.cell .inner {
+  width: 100%;
+  height: 100%;
+}
