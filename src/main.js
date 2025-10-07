@@ -1,7 +1,6 @@
 import "./style.scss"
 import { router } from "./router";
 
-// eslint-disable-next-line
 import * as bootstrap from 'bootstrap'
 
 import { renderHeader } from "./components/header"
@@ -15,10 +14,8 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   headerDiv.innerHTML = renderHeader();
   footerDiv.innerHTML = renderFooter();
-  //window.location.hash = "#";
   router(window.location.hash, appDiv);
   window.addEventListener("hashchange", () => {
     router(window.location.hash, appDiv);
   });
-  //appDiv.innerHTML = renderContent(Array(120).fill(0).map((_,i)=>i));
 });
