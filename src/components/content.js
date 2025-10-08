@@ -1,16 +1,20 @@
 export { renderContent };
 
 const tamaño = 15;
+let jugador = Math.floor(Math.random() * 2) + 1;
+
+let tableroEstado = Array.from({ length: tamaño }, () => Array(tamaño).fill(0));
 
 function renderContent() {
   let tablero = `
+    <h1 id="titulo">Turno del Jugador ${jugador}</h1>
     <div class="board-wrapper" id="board-wrapper">
       <div class="board">
   `;
 
   for (let y = 0; y < tamaño; y++) {
     for (let x = 0; x < tamaño; x++) {
-      tablero += `<div class="cell empty" data-x="${x}" data-y="${y}"><div class="inner"></div></div>`;
+      tablero += `<div class="celda vacia" data-x="${x}" data-y="${y}"><div class="inner"></div></div>`;
     }
   }
 
@@ -20,45 +24,58 @@ function renderContent() {
   `;
 
   setTimeout(() => {
-  const cells = document.querySelectorAll('.cell');
-  cells.forEach(cell => {
-    cell.addEventListener('click', () => cambiarColor(cell));
-  });
-}, 0);
+    const celdas = document.querySelectorAll(".celda");
+    celdas.forEach((celda) => {
+      celda.addEventListener("click", () => manejarClick(celda));
+    });
+    actualizarVista();
+  }, 0);
 
   return tablero;
-  
 }
 
-function cambiarColor(cell) {
-   if (!cell.classList.contains('empty')) {
-    return;
-  }
-const x = parseInt(cell.getAttribute('data-x'));
-const y = parseInt(cell.getAttribute('data-y'));
+function manejarClick(celda) {
+  const x = parseInt(celda.getAttribute("data-x"));
+  const y = parseInt(celda.getAttribute("data-y"));
 
+  if (tableroEstado[y][x] !== 0) return;
 
+  tableroEstado[y][x] = jugador;
 
-  cell.querySelector('.inner').style.backgroundColor = 'blue';
-  cell.classList.remove('empty');
-    
-    const vecinas = [
-    [0, -1], // arriba
-    [0, 1],  // abajo
-    [-1, 0], // izquierda
-    [1, 0]   // derecha
+  const vecinas = [
+    [0, -1], [0, 1], [-1, 0], [1, 0],
   ];
 
-  vecinas.forEach(([avanzarX,avanzarY]) => {
+  vecinas.forEach(([avanzarX, avanzarY]) => {
     const posicionX = x + avanzarX;
     const posicionY = y + avanzarY;
+    if (posicionX >= 0 && posicionX < tamaño && posicionY >= 0 && posicionY < tamaño) {
+      tableroEstado[posicionY][posicionX] = jugador;
+    }
+  });
 
-    if(posicionX >= 0 && posicionX < 15 && posicionY >= 0 && posicionY < 15 ){
-      const celda = document.querySelector(`.cell[data-x="${posicionX}"][data-y="${posicionY}"]`);
-      if (celda && celda.classList.contains('empty')) {
-        celda.querySelector('.inner').style.backgroundColor = 'blue';
-        celda.classList.remove('empty');
+  jugador = jugador === 1 ? 2 : 1;
+
+  actualizarVista();
+}
+
+function actualizarVista() {
+document.querySelector("#titulo").textContent = `Turno del Jugador ${jugador}`;
+  for (let y = 0; y < tamaño; y++) {
+    for (let x = 0; x < tamaño; x++) {
+      const celda = document.querySelector(`.celda[data-x="${x}"][data-y="${y}"]`);
+      const inner = celda.querySelector(".inner");
+
+      if (tableroEstado[y][x] === 1) {
+        inner.style.backgroundColor = "blue";
+        celda.classList.remove("vacia");
+      } else if (tableroEstado[y][x] === 2) {
+        inner.style.backgroundColor = "pink";
+        celda.classList.remove("vacia");
+      } else {
+        inner.style.backgroundColor = "white";
+        celda.classList.add("vacia");
       }
     }
-  })
+  }
 }

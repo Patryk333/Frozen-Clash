@@ -1,12 +1,38 @@
 @import "bootstrap/scss/bootstrap";
 
+#titulo {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+  animation: aparecer 0.6s ease-out;
+  font-family: "Poppins", sans-serif;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .board-wrapper {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #f2f3f7, #dfe3ea);
+  gap: 20px;
 }
 
 .board {
@@ -20,7 +46,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.cell {
+.celda {
   width: 100%;
   height: 100%;
   background: #fff;
@@ -36,7 +62,21 @@
   }
 }
 
-.cell .inner {
+.celda .inner {
   width: 100%;
   height: 100%;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.celda.vacia .inner {
+  background-color: #ffffff;
+}
+
+.celda.jugador1 .inner {
+  background-color: #4a90e2;
+}
+
+.celda.jugador2 .inner {
+  background-color: #f78fb3;
 }
