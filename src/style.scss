@@ -80,3 +80,26 @@
 .celda.jugador2 .inner {
   background-color: #f78fb3;
 }
+.mensaje-final {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.mensaje-final h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.mensaje-final button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+}
+
+.mensaje-final button:hover {
+  background-color: #666;
+}

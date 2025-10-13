@@ -43,13 +43,21 @@ function manejarClick(celda) {
   tableroEstado[y][x] = jugador;
 
   const vecinas = [
-    [0, -1], [0, 1], [-1, 0], [1, 0],
+    [0, -1],
+    [0, 1],
+    [-1, 0],
+    [1, 0],
   ];
 
   vecinas.forEach(([avanzarX, avanzarY]) => {
     const posicionX = x + avanzarX;
     const posicionY = y + avanzarY;
-    if (posicionX >= 0 && posicionX < tamaño && posicionY >= 0 && posicionY < tamaño) {
+    if (
+      posicionX >= 0 &&
+      posicionX < tamaño &&
+      posicionY >= 0 &&
+      posicionY < tamaño
+    ) {
       tableroEstado[posicionY][posicionX] = jugador;
     }
   });
@@ -60,10 +68,14 @@ function manejarClick(celda) {
 }
 
 function actualizarVista() {
-document.querySelector("#titulo").textContent = `Turno del Jugador ${jugador}`;
+  document.querySelector(
+    "#titulo"
+  ).textContent = `Turno del Jugador ${jugador}`;
   for (let y = 0; y < tamaño; y++) {
     for (let x = 0; x < tamaño; x++) {
-      const celda = document.querySelector(`.celda[data-x="${x}"][data-y="${y}"]`);
+      const celda = document.querySelector(
+        `.celda[data-x="${x}"][data-y="${y}"]`
+      );
       const inner = celda.querySelector(".inner");
 
       if (tableroEstado[y][x] === 1) {
@@ -78,4 +90,68 @@ document.querySelector("#titulo").textContent = `Turno del Jugador ${jugador}`;
       }
     }
   }
+  comprobarJuego();
 }
+function comprobarJuego() {
+  let celdasVacias = 0;
+  for (let y = 0; y < tamaño; y++) {
+    for (let x = 0; x < tamaño; x++) {
+      if (tableroEstado[y][x] === 0) {
+        celdasVacias++;
+      }
+    }
+  }
+  if (celdasVacias === 0) {
+    comprobarGanador();
+  }
+}
+function comprobarGanador() {
+  let celdas1 = 0;
+  let celdas2 = 0;
+  for (let y = 0; y < tamaño; y++) {
+    for (let x = 0; x < tamaño; x++) {
+      if (tableroEstado[y][x] === 1) {
+        celdas1++;
+      } else {
+        celdas2++;
+      }
+    }
+  }
+  let mensaje = "";
+  if (celdas1 > celdas2) {
+    mensaje = "🏆 ¡Ha ganado el Jugador 1 (azul)!";
+  } else if (celdas2 > celdas1) {
+    mensaje = "🏆 ¡Ha ganado el Jugador 2 (rosa)!";
+  } else {
+    mensaje = "🤝 ¡Empate!";
+  }
+  let stats =
+    "Casillas Azules:&nbsp; " +
+    celdas1 +
+    "&nbsp;&nbsp;&nbsp;&nbsp;" +
+    "Casillas Rosas:&nbsp; " +
+    celdas2;
+
+  const contenedor = document.querySelector("#board-wrapper");
+  contenedor.innerHTML = `
+    <div class="mensaje-final">
+      <h2>${mensaje}</h2>
+      <p>${stats}</p>
+      <button id="reiniciar">🔄 Jugar otra vez</button>
+    </div>
+  `;
+
+  document.querySelector("#titulo").textContent = "Partida terminada";
+
+  document
+    .querySelector("#reiniciar")
+    .addEventListener("click", reiniciarJuego);
+}
+function reiniciarJuego() {
+  tableroEstado = Array.from({ length: tamaño }, () => Array(tamaño).fill(0));
+  jugador = Math.floor(Math.random() * 2) + 1;
+
+  const contenedor = document.querySelector("#app");
+  contenedor.innerHTML = renderContent();
+}
+
