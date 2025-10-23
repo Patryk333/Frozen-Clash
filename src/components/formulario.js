@@ -1,7 +1,7 @@
-export {renderFormulario}
+export { renderFormulario };
 
-function renderFormulario(){
-    const html = `
+function renderFormulario() {
+  const html = `
 <div class="container mt-5">
   <h2>Formlario de Datos</h2>
   <form id="userForm">
@@ -19,12 +19,23 @@ function renderFormulario(){
       <label for="avatarUrl" class="form-label">Avatar URL</label>
       <input type="file" class="form-control" id="avatarUrl" accept="image/*">
     </div>
-
+    <img id="foto" style="width:200px;height:200px">
+    <br>
+    <br>
     <button id="botonFormulario" type="submit" class="btn btn-primary">Registrar</button>
   </form>
 </div>
 `;
-setTimeout(() => {
+
+  
+  setTimeout(() => {
+  const imagen = document.querySelector("#foto");
+  const inputFoto = document.querySelector("#avatarUrl");
+  inputFoto.addEventListener("change", () => {
+    const file = inputFoto.files[0];
+    const fileURL = URL.createObjectURL(file);
+    imagen.src = fileURL;
+  });
     import("../back/registrar.js");
   }, 0);
   return html;
