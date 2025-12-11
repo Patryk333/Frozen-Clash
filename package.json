@@ -1,19 +1,26 @@
 {
-  "name": "frozen-clash",
+  "name": "color-flip",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "webtest": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@vitest/ui": "^4.0.10",
+    "jsdom": "^27.2.0",
     "sass": "^1.93.2",
-    "vite": "^7.1.8"
+    "vite": "^7.1.8",
+    "vitest": "^4.0.10"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "rxjs": "^7.8.2"
   }
 }

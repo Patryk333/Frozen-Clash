@@ -2,27 +2,34 @@ import { renderContent } from "./components/content";
 import { renderFormulario } from "./components/formulario";
 import { renderLogin } from "./components/login";
 import { renderRegister } from "./components/register";
-import { registro,formulario,login } from "./back/registrar";
+import { registro, formulario, login } from "./back/registrar";
 
 export { router };
 
 const routes = new Map([
-    ['#', renderContent],
-    ['#game', renderContent],
-    ['#login', renderLogin],
-    ['#register', renderRegister],
-    ['#formulario', renderFormulario]
+  ['#', renderContent],
+  ['#game', renderContent],
+  ['#login', renderLogin],
+  ['#register', renderRegister],
+  ['#formulario', renderFormulario]
 ]);
 
-function router(route, container){
-    if(routes.has(route)){
-        container.innerHTML = routes.get(route)();
+function router(route, container) {
+  if (routes.has(route)) {
+    const renderFn = routes.get(route);
+    const result = renderFn();
 
-        if(route === "#register") registro();
-        if(route === "#formulario") formulario();
-        if(route === "#login") login();
+    if (result instanceof HTMLElement) {
+      container.innerHTML = "";
+      container.appendChild(result);
+    } else {
+      container.innerHTML = result;
     }
-    else {
-        container.innerHTML = `<h2>404</h2>`;
-    }
+
+    if (route === "#register") registro();
+    if (route === "#formulario") formulario();
+    if (route === "#login") login();
+  } else {
+    container.innerHTML = `<h2>404</h2>`;
+  }
 }

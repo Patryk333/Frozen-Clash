@@ -1,17 +1,21 @@
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
-export default {
-
-  // Optional: Silence Sass deprecation warnings. See note below.
+export default defineConfig({
   css: {
-     preprocessorOptions: {
-        scss: {
-          silenceDeprecations: [
-            'import',
-           // 'mixed-decls',
-            'color-functions',
-            'global-builtin',
-          ],
-        },
-     },
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: [
+          "import",
+          "color-functions",
+          "global-builtin"
+        ]
+      }
+    }
   },
-}
+
+  test: {
+    environment: "jsdom",
+    globals: true
+  }
+});
