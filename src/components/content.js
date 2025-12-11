@@ -16,7 +16,6 @@ const jugador$ = new BehaviorSubject(1);
 function renderContent() {
   const tamaño = 15;
 
-  // Inicializar tablero y jugador
   tablero$.next(Array.from({ length: tamaño }, () => Array(tamaño).fill(0)));
   jugador$.next(Math.floor(Math.random() * 2) + 1);
 
@@ -30,7 +29,6 @@ function renderContent() {
     </div>
   `;
 
-  // Función para agregar event listeners a las celdas
   const agregarEventListeners = () => {
     const celdas = contenedor.querySelectorAll(".celda");
     celdas.forEach((celda) => {
@@ -45,12 +43,10 @@ function renderContent() {
   };
 
   const reiniciar = () => {
-    // Reiniciar el estado del juego
     const nuevoEstado = reiniciarJuego(tamaño);
     tablero$.next(nuevoEstado.tablero);
     jugador$.next(nuevoEstado.jugador);
 
-    // Recrear el contenido del board-wrapper
     const boardWrapper = contenedor.querySelector("#board-wrapper");
     boardWrapper.innerHTML = `
       <div class="board">
@@ -58,17 +54,13 @@ function renderContent() {
       </div>
     `;
 
-    // Volver a agregar los event listeners a las nuevas celdas
     agregarEventListeners();
 
-    // Forzar actualización del título
     contenedor.querySelector("#titulo").textContent = `Turno del Jugador ${jugador$.getValue()}`;
   };
 
-  // Agregar event listeners inicialmente
   agregarEventListeners();
 
-  // Subscribir al cambio de tablero y jugador para actualizar DOM
   const subscription = tablero$.subscribe((tablero) => {
     actualizarDOM(tablero, jugador$.getValue(), tamaño, contenedor, reiniciar);
   });
@@ -187,7 +179,7 @@ function comprobarGanador(tablero) {
       : celdas2 > celdas1
       ? "🏆 ¡Ha ganado el Jugador 2 (rosa)!"
       : "🤝 ¡Empate!";
-  const stats = `Casillas Azules: ${celdas1} | Casillas Rosas: ${celdas2}`;
+  const stats = `Casillas Azules: ${celdas1} | Casillas Verdes: ${celdas2}`;
   return { mensaje, stats };
 }
 

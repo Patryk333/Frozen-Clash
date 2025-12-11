@@ -1,22 +1,27 @@
 import "./style.scss"
 import { router } from "./router";
-
 import * as bootstrap from 'bootstrap'
 
-import { renderHeader } from "./components/header"
-import { renderContent } from "./components/content";
-import { renderFooter } from "./components/footer";
-import { renderLogin } from "./components/login";
+import { renderHeader } from "./components/renderHeader"
+import { renderFooter } from "./components/renderFooter"
+import { renderLogin } from "./components/login"
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
   const appDiv = document.querySelector('#app');
   const headerDiv = document.querySelector('#header');
   const footerDiv = document.querySelector('#footer');
 
-  headerDiv.innerHTML = renderHeader();
-  appDiv.innerHTML = renderLogin();
-  footerDiv.innerHTML = renderFooter();
+  headerDiv.innerHTML = "";
+  headerDiv.appendChild(renderHeader());
+
+  appDiv.innerHTML = "";
+  appDiv.appendChild(renderLogin());
+
+  footerDiv.innerHTML = "";
+  footerDiv.appendChild(renderFooter());
+
   router("#register", appDiv);
+
   window.addEventListener("hashchange", () => {
     router(window.location.hash, appDiv);
   });
